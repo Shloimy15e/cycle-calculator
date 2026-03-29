@@ -16,22 +16,23 @@ export function useCalculation() {
     }
   }
 
-  function validate(t) {
-    if (dates.value.some(d => d === '')) return t('errorEmpty')
+  function validate(filled, t) {
+    if (filled.length < 2) return t('errorMinDates')
 
     const today = new Date().toISOString().split('T')[0]
-    for (const d of dates.value) {
+    for (const d of filled) {
       if (d > today) return t('errorFutureDate')
     }
 
-    const unique = new Set(dates.value)
-    if (unique.size !== dates.value.length) return t('errorDuplicate')
+    const unique = new Set(filled)
+    if (unique.size !== filled.length) return t('errorDuplicate')
 
     return null
   }
 
   function calculate(t) {
-    const validationError = validate(t)
+    const filled = dates.value.filter(d => d !== '')
+    const validationError = validate(filled, t)
     if (validationError) {
       error.value = validationError
       result.value = null
@@ -39,7 +40,7 @@ export function useCalculation() {
     }
 
     error.value = null
-    const sorted = [...dates.value].sort()
+    const sorted = [...filled].sort()
     const cycleLengths = []
 
     for (let i = 1; i < sorted.length; i++) {
