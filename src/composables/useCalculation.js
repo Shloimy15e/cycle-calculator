@@ -1,5 +1,24 @@
 import { ref, computed, watch } from 'vue'
 
+// Parse 'YYYY-MM-DD' to [year, month, day] without timezone issues
+function parseDate(str) {
+  const [y, m, d] = str.split('-').map(Number)
+  return new Date(Date.UTC(y, m - 1, d))
+}
+
+// Format UTC date back to 'YYYY-MM-DD'
+function formatDate(date) {
+  const y = date.getUTCFullYear()
+  const m = String(date.getUTCMonth() + 1).padStart(2, '0')
+  const d = String(date.getUTCDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+// Days between two date strings (exclusive)
+function daysBetween(a, b) {
+  return Math.round((parseDate(b) - parseDate(a)) / (1000 * 60 * 60 * 24))
+}
+
 export function useCalculation() {
   const dates = ref(['', ''])
   const savedMode = localStorage.getItem('period-calc-mode') || 'shortest'
@@ -12,20 +31,18 @@ export function useCalculation() {
   const result = ref(null)
   const error = ref(null)
 
-  // Auto-sort filled dates and compute gaps between consecutive pairs
+  // Compute inclusive gaps between consecutive sorted dates
   const gaps = computed(() => {
     const filled = dates.value.filter(d => d !== '')
     if (filled.length < 2) return []
     const sorted = [...filled].sort()
-    const result = []
+    const out = []
     for (let i = 1; i < sorted.length; i++) {
-      const days = Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / (1000 * 60 * 60 * 24)) + 1
-      result.push(days)
+      out.push(daysBetween(sorted[i - 1], sorted[i]) + 1)
     }
-    return result
+    return out
   })
 
-  // Auto-sort: when a date is entered/changed, sort filled dates to the front
   function sortDates() {
     const filled = dates.value.filter(d => d !== '')
     const empty = dates.value.filter(d => d === '')
@@ -46,7 +63,7 @@ export function useCalculation() {
   function validate(filled, t) {
     if (filled.length < 2) return t('errorMinDates')
 
-    const today = new Date().toISOString().split('T')[0]
+    const today = formatDate(new Date())
     for (const d of filled) {
       if (d > today) return t('errorFutureDate')
     }
@@ -72,8 +89,7 @@ export function useCalculation() {
     const cycleLengths = []
 
     for (let i = 1; i < sorted.length; i++) {
-      const diff = Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / (1000 * 60 * 60 * 24)) + 1
-      cycleLengths.push(diff)
+      cycleLengths.push(daysBetween(sorted[i - 1], sorted[i]) + 1)
     }
 
     let cycleLength
@@ -83,14 +99,13 @@ export function useCalculation() {
       cycleLength = Math.round(cycleLengths.reduce((a, b) => a + b, 0) / cycleLengths.length)
     }
 
-    const lastDate = new Date(sorted[sorted.length - 1])
-    const nextDate = new Date(lastDate)
-    nextDate.setDate(nextDate.getDate() + cycleLength - 1)
+    const last = parseDate(sorted[sorted.length - 1])
+    last.setUTCDate(last.getUTCDate() + cycleLength - 1)
 
     result.value = {
       cycleLength,
       cycleLengths,
-      nextDate: nextDate.toISOString().split('T')[0]
+      nextDate: formatDate(last)
     }
   }
 
