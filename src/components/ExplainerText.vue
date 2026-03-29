@@ -5,5 +5,5 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <p class="explainer">{{ t('explainer') }}</p>
+  <p class="text-[#555] mb-7 text-[0.95rem]">{{ t('explainer') }}</p>
 </template>

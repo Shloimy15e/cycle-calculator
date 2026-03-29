@@ -1,6 +1,6 @@
 {
   "appTitle": "Period Calculator",
-  "explainer": "Enter at least 2 past period start dates to predict your next period.",
+  "explainer": "Enter at least 2 past period start dates to predict the next period.",
   "dateLabel": "Period {n}",
   "addDate": "Add Date",
   "remove": "Remove",
