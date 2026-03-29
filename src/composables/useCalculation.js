@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export function useCalculation() {
   const dates = ref(['', ''])
@@ -8,8 +8,30 @@ export function useCalculation() {
   watch(mode, (val) => {
     localStorage.setItem('period-calc-mode', val)
   })
+
   const result = ref(null)
   const error = ref(null)
+
+  // Auto-sort filled dates and compute gaps between consecutive pairs
+  const gaps = computed(() => {
+    const filled = dates.value.filter(d => d !== '')
+    if (filled.length < 2) return []
+    const sorted = [...filled].sort()
+    const result = []
+    for (let i = 1; i < sorted.length; i++) {
+      const days = Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / (1000 * 60 * 60 * 24)) + 1
+      result.push(days)
+    }
+    return result
+  })
+
+  // Auto-sort: when a date is entered/changed, sort filled dates to the front
+  function sortDates() {
+    const filled = dates.value.filter(d => d !== '')
+    const empty = dates.value.filter(d => d === '')
+    filled.sort()
+    dates.value = [...filled, ...empty]
+  }
 
   function addDate() {
     dates.value.push('')
@@ -36,6 +58,7 @@ export function useCalculation() {
   }
 
   function calculate(t) {
+    sortDates()
     const filled = dates.value.filter(d => d !== '')
     const validationError = validate(filled, t)
     if (validationError) {
@@ -49,7 +72,7 @@ export function useCalculation() {
     const cycleLengths = []
 
     for (let i = 1; i < sorted.length; i++) {
-      const diff = (new Date(sorted[i]) - new Date(sorted[i - 1])) / (1000 * 60 * 60 * 24)
+      const diff = Math.round((new Date(sorted[i]) - new Date(sorted[i - 1])) / (1000 * 60 * 60 * 24)) + 1
       cycleLengths.push(diff)
     }
 
@@ -62,10 +85,11 @@ export function useCalculation() {
 
     const lastDate = new Date(sorted[sorted.length - 1])
     const nextDate = new Date(lastDate)
-    nextDate.setDate(nextDate.getDate() + cycleLength)
+    nextDate.setDate(nextDate.getDate() + cycleLength - 1)
 
     result.value = {
       cycleLength,
+      cycleLengths,
       nextDate: nextDate.toISOString().split('T')[0]
     }
   }
@@ -77,5 +101,5 @@ export function useCalculation() {
     error.value = null
   }
 
-  return { dates, mode, result, error, addDate, removeDate, calculate, reset }
+  return { dates, mode, result, error, gaps, addDate, removeDate, calculate, reset }
 }

@@ -8,7 +8,7 @@ import ResultDisplay from './components/ResultDisplay.vue'
 import { useCalculation } from './composables/useCalculation.js'
 
 const { t } = useI18n()
-const { dates, mode, result, error, addDate, removeDate, calculate, reset } = useCalculation()
+const { dates, mode, result, error, gaps, addDate, removeDate, calculate, reset } = useCalculation()
 </script>
 
 <template>
@@ -21,6 +21,7 @@ const { dates, mode, result, error, addDate, removeDate, calculate, reset } = us
 
         <DateEntryForm
           v-model="dates"
+          :gaps="gaps"
           @add="addDate"
           @remove="removeDate"
         />
