@@ -1,47 +1,28 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { watch } from 'vue'
+import AppHeader from './components/AppHeader.vue'
+import ExplainerText from './components/ExplainerText.vue'
+import DateEntryForm from './components/DateEntryForm.vue'
+import CalculationToggle from './components/CalculationToggle.vue'
+import ResultDisplay from './components/ResultDisplay.vue'
+import { useCalculation } from './composables/useCalculation.js'
 
-const { t, locale } = useI18n()
-
-watch(
-  locale,
-  (newLocale) => {
-    document.documentElement.dir = newLocale === 'he' ? 'rtl' : 'ltr'
-    document.documentElement.lang = newLocale
-  },
-  { immediate: true }
-)
-
-function toggleLanguage() {
-  locale.value = locale.value === 'en' ? 'he' : 'en'
-}
+const { t } = useI18n()
+const { dates, mode, result, error, addDate, removeDate, calculate, reset } = useCalculation()
 </script>
 
 <template>
-  <div class="app">
-    <header>
-      <h1>{{ t('appTitle') }}</h1>
-      <button @click="toggleLanguage">{{ t('langToggle') }}</button>
-    </header>
-    <main>
-      <p>{{ t('explainer') }}</p>
-    </main>
+  <AppHeader />
+  <ExplainerText />
+  <DateEntryForm
+    v-model="dates"
+    @add="addDate"
+    @remove="removeDate"
+  />
+  <CalculationToggle v-model="mode" />
+  <div class="action-buttons">
+    <button class="btn btn-primary" @click="calculate(t)">{{ t('calculate') }}</button>
+    <button class="btn btn-secondary" @click="reset">{{ t('reset') }}</button>
   </div>
+  <ResultDisplay :result="result" :error="error" />
 </template>
-
-<style scoped>
-.app {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-family: sans-serif;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-</style>
