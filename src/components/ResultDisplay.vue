@@ -17,16 +17,29 @@ const props = defineProps({
 
 const formattedDate = computed(() => {
   if (!props.result) return ''
-  return new Date(props.result.nextDate).toLocaleDateString(locale.value)
+  return new Date(props.result.nextDate).toLocaleDateString(locale.value, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 })
 </script>
 
 <template>
-  <div class="mt-2">
-    <p v-if="error" class="text-[#c0392b] bg-[#fce8ea] border-[1.5px] border-[#f5b7bb] rounded-lg px-4 py-3 font-medium text-[0.95rem]">{{ error }}</p>
-    <div v-if="result" class="bg-[#f0f4ff] border-[1.5px] border-[#c5d0f5] rounded-xl px-[1.4rem] py-[1.1rem]">
-      <p class="text-base text-[#2d3561] mb-[0.4rem]">{{ t('resultCycleLength', { days: result.cycleLength }) }}</p>
-      <p class="font-bold text-[1.1rem] text-[#3d52b5]">{{ t('resultNextDate', { date: formattedDate }) }}</p>
-    </div>
+  <div class="mt-6">
+    <Transition name="fade-slide" mode="out-in">
+      <p v-if="error" key="error" class="text-rose text-[0.85rem] bg-rose-pale rounded-[3px] px-5 py-3.5 font-medium">
+        {{ error }}
+      </p>
+
+      <div v-else-if="result" key="result" class="bg-teal-pale rounded-[3px] px-6 py-5">
+        <p class="text-[0.8rem] text-teal font-medium tracking-wide uppercase mb-1">
+          {{ t('resultCycleLength', { days: result.cycleLength }) }}
+        </p>
+        <p class="text-[1.15rem] font-bold text-ink leading-snug">
+          {{ t('resultNextDate', { date: formattedDate }) }}
+        </p>
+      </div>
+    </Transition>
   </div>
 </template>

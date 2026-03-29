@@ -1,8 +1,13 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export function useCalculation() {
   const dates = ref(['', ''])
-  const mode = ref('shortest') // 'shortest' | 'average'
+  const savedMode = localStorage.getItem('period-calc-mode') || 'shortest'
+  const mode = ref(savedMode)
+
+  watch(mode, (val) => {
+    localStorage.setItem('period-calc-mode', val)
+  })
   const result = ref(null)
   const error = ref(null)
 

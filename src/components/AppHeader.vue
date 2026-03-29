@@ -1,21 +1,31 @@
 <script setup>
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
 
+function applyLocale(loc) {
+  document.documentElement.dir = loc === 'he' ? 'rtl' : 'ltr'
+  document.documentElement.lang = loc
+}
+
 function toggleLanguage() {
   const newLocale = locale.value === 'en' ? 'he' : 'en'
   locale.value = newLocale
-  document.documentElement.dir = newLocale === 'he' ? 'rtl' : 'ltr'
-  document.documentElement.lang = newLocale
+  localStorage.setItem('period-calc-locale', newLocale)
+  applyLocale(newLocale)
 }
+
+onMounted(() => {
+  applyLocale(locale.value)
+})
 </script>
 
 <template>
-  <header class="flex justify-between items-center mb-6 gap-4">
-    <h1 class="text-[1.6rem] font-bold text-[#2d3561] max-sm:text-[1.3rem]">{{ t('appTitle') }}</h1>
+  <header class="flex justify-between items-baseline mb-6 px-1">
+    <h1 class="text-[1.5rem] sm:text-[1.75rem] font-normal text-teal leading-snug">{{ t('appTitle') }}</h1>
     <button
-      class="inline-flex items-center justify-center px-[0.9rem] py-[0.4rem] text-[0.88rem] font-semibold rounded-lg bg-[#f0f3ff] text-[#2d3561] border border-[#c8cfe0] hover:bg-[#e0e6ff] active:scale-[0.97] transition-all cursor-pointer ms-auto shrink-0"
+      class="text-[0.8rem] font-medium text-ink-light hover:text-teal transition-colors duration-200 cursor-pointer border-none bg-transparent tracking-wide"
       @click="toggleLanguage"
     >{{ t('langToggle') }}</button>
   </header>

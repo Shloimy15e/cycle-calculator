@@ -1,1 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Heebo:wght@100..900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #f7f7f7;
+  --color-card: #ffffff;
+  --color-input-bg: #fafafa;
+  --color-border: #e2e2e2;
+  --color-border-light: #efefef;
+  --color-ink: #333333;
+  --color-ink-mid: #555555;
+  --color-ink-light: #888888;
+  --color-purple: #463368;
+  --color-purple-hover: #372858;
+  --color-purple-pale: #f0ecf5;
+  --color-pink: #d11c74;
+  --color-pink-hover: #b81463;
+  --color-pink-pale: #fdf0f5;
+  --color-teal: #23a8a0;
+  --color-teal-hover: #1c8f88;
+  --color-teal-pale: #edf9f8;
+  --color-rose: #c0392b;
+  --color-rose-pale: #fdf0f0;
+  --font-main: 'Open Sans', 'Heebo', Arial, sans-serif;
+}
+
+html {
+  font-family: var(--font-main);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+input[type="date"] {
+  font-family: var(--font-main);
+  color-scheme: light;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 0.8;
+}
+
+::selection {
+  background: var(--color-pink-pale);
+  color: var(--color-ink);
+}
+
+/* Vue transition classes */
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.date-list-enter-active {
+  transition: all 0.3s ease;
+}
+.date-list-leave-active {
+  transition: all 0.2s ease;
+}
+.date-list-enter-from {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+.date-list-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.date-list-move {
+  transition: transform 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-slide-enter-active,
+  .fade-slide-leave-active,
+  .date-list-enter-active,
+  .date-list-leave-active,
+  .date-list-move {
+    transition-duration: 0.01ms !important;
+  }
+}
