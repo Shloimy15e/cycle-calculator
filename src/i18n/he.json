@@ -1,0 +1,18 @@
+{
+  "appTitle": "מחשבון מחזור",
+  "explainer": "הזיני לפחות 2 תאריכי תחילת מחזור קודמים כדי לחזות את המחזור הבא.",
+  "dateLabel": "מחזור {n}",
+  "addDate": "הוסף תאריך",
+  "remove": "הסר",
+  "calculate": "חשב",
+  "reset": "איפוס",
+  "toggleShortest": "מחזור קצר ביותר",
+  "toggleAverage": "מחזור ממוצע",
+  "resultCycleLength": "אורך מחזור: {days} ימים",
+  "resultNextDate": "מחזור צפוי הבא: {date}",
+  "errorMinDates": "יש להזין לפחות 2 תאריכים.",
+  "errorFutureDate": "תאריכים לא יכולים להיות בעתיד.",
+  "errorDuplicate": "התאריכים חייבים להיות ייחודיים.",
+  "errorEmpty": "יש למלא את כל שדות התאריך.",
+  "langToggle": "English"
+}

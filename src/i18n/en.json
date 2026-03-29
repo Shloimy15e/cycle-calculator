@@ -1,0 +1,18 @@
+{
+  "appTitle": "Period Calculator",
+  "explainer": "Enter at least 2 past period start dates to predict your next period.",
+  "dateLabel": "Period {n}",
+  "addDate": "Add Date",
+  "remove": "Remove",
+  "calculate": "Calculate",
+  "reset": "Reset",
+  "toggleShortest": "Shortest Cycle",
+  "toggleAverage": "Average Cycle",
+  "resultCycleLength": "Cycle length: {days} days",
+  "resultNextDate": "Next expected period: {date}",
+  "errorMinDates": "Please enter at least 2 dates.",
+  "errorFutureDate": "Dates cannot be in the future.",
+  "errorDuplicate": "Dates must be unique.",
+  "errorEmpty": "Please fill in all date fields.",
+  "langToggle": "עברית"
+}
