@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'>
+  <rect width='1200' height='630' fill='#f7f7f7'/>
+  <g transform='translate(480, 155)'>
+    <path d='M120 30 A90 90 0 0 1 198 75' stroke='#23a8a0' stroke-width='14' stroke-linecap='round' fill='none'/>
+    <path d='M198 75 A90 90 0 0 1 142.5 206' stroke='#d11c74' stroke-width='14' stroke-linecap='round' fill='none'/>
+    <path d='M142.5 206 A90 90 0 0 1 42 75' stroke='#463368' stroke-width='14' stroke-linecap='round' fill='none'/>
+    <path d='M42 75 A90 90 0 0 1 120 30' stroke='#23a8a0' stroke-width='14' stroke-linecap='round' fill='none' opacity='0.4'/>
+    <circle cx='120' cy='120' r='10' fill='#23a8a0'/>
+  </g>
+  <text x='600' y='470' text-anchor='middle' font-family='Arial, sans-serif' font-size='48' fill='#23a8a0' font-weight='400'>Cycle Calculator</text>
+  <text x='600' y='520' text-anchor='middle' font-family='Arial, sans-serif' font-size='24' fill='#888888'>מחשבון וסת</text>
+</svg>
