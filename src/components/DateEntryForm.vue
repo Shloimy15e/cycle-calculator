@@ -18,21 +18,13 @@ const emit = defineEmits(['add', 'remove'])
 <template>
   <div>
     <div v-for="(date, index) in dates" :key="index">
-      <!-- Gap connector between dates -->
-      <div v-if="index > 0 && props.gaps[index - 1]" class="flex items-center justify-center py-2">
-        <div class="flex flex-col items-center text-teal">
-          <span class="block w-px h-2 bg-current opacity-25"></span>
-          <span class="block w-[4px] h-[4px] rounded-full bg-current opacity-30"></span>
-          <span class="block w-px h-1.5 bg-current opacity-25"></span>
-          <span class="block w-[4px] h-[4px] rounded-full bg-current opacity-30"></span>
-          <span class="block w-px h-1.5 bg-current opacity-25"></span>
-          <span class="inline-flex items-center justify-center bg-teal-pale text-teal text-[0.7rem] font-bold min-w-[2.2rem] px-2 py-0.5 rounded-full">{{ props.gaps[index - 1] }}</span>
-          <span class="block w-px h-1.5 bg-current opacity-25"></span>
-          <span class="block w-[4px] h-[4px] rounded-full bg-current opacity-30"></span>
-          <span class="block w-px h-1.5 bg-current opacity-25"></span>
-          <span class="block w-[4px] h-[4px] rounded-full bg-current opacity-30"></span>
-          <span class="block w-px h-2 bg-current opacity-25"></span>
-        </div>
+      <!-- Gap indicator between dates -->
+      <div v-if="index > 0 && props.gaps[index - 1]" class="flex items-center gap-3 my-3 px-1">
+        <div class="flex-1 h-px bg-teal/15"></div>
+        <span class="inline-flex items-center gap-1 text-[0.72rem] font-semibold text-teal bg-teal-pale px-2.5 py-1 rounded-full whitespace-nowrap">
+          {{ props.gaps[index - 1] }} {{ props.gaps[index - 1] === 1 ? 'day' : 'days' }}
+        </span>
+        <div class="flex-1 h-px bg-teal/15"></div>
       </div>
 
       <!-- Spacer when no gap to show -->
