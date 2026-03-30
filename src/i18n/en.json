@@ -6,6 +6,7 @@
   "remove": "Remove",
   "calculate": "Calculate",
   "reset": "Reset",
+  "resultAverage": "Average expected ({days} days)",
   "resultEarliest": "Earliest expected ({days} days)",
   "resultLatest": "Latest expected ({days} days)",
   "seeMore": "See 2 more",

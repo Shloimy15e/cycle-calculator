@@ -93,17 +93,21 @@ export function useCalculation() {
 
     const shortest = Math.min(...cycleLengths)
     const longest = Math.max(...cycleLengths)
+    const average = Math.round(cycleLengths.reduce((a, b) => a + b, 0) / cycleLengths.length)
     const lastDate = sorted[sorted.length - 1]
 
     const earliestDate = addDaysUTC(lastDate, shortest - 1)
     const latestDate = addDaysUTC(lastDate, longest - 1)
+    const averageDate = addDaysUTC(lastDate, average - 1)
 
     result.value = {
       shortest,
       longest,
+      average,
       cycleLengths,
       earliestDate,
       latestDate,
+      averageDate,
       earliestMore: [
         addDaysUTC(earliestDate, shortest - 1),
         addDaysUTC(addDaysUTC(earliestDate, shortest - 1), shortest - 1)
@@ -111,6 +115,10 @@ export function useCalculation() {
       latestMore: [
         addDaysUTC(latestDate, longest - 1),
         addDaysUTC(addDaysUTC(latestDate, longest - 1), longest - 1)
+      ],
+      averageMore: [
+        addDaysUTC(averageDate, average - 1),
+        addDaysUTC(addDaysUTC(averageDate, average - 1), average - 1)
       ]
     }
   }

@@ -6,6 +6,7 @@
   "remove": "הסר",
   "calculate": "חשב",
   "reset": "איפוס",
+  "resultAverage": "ממוצע ({days} ימים)",
   "resultEarliest": "מוקדם ביותר ({days} ימים)",
   "resultLatest": "מאוחר ביותר ({days} ימים)",
   "seeMore": "עוד 2 תאריכים",
