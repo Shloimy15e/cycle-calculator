@@ -105,6 +105,7 @@ export function useCalculation() {
       longest,
       average,
       cycleLengths,
+      lastDate,
       earliestDate,
       latestDate,
       averageDate,

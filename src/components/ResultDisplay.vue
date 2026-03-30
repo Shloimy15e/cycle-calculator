@@ -36,6 +36,15 @@ function fmtDate(dateStr) {
         <div class="bg-pink-pale rounded-[3px] px-6 py-5">
           <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-pink mb-1">
             {{ t('resultAverage', { days: result.average }) }}
+            <span v-if="result.shortest === result.average && result.longest === result.average" class="text-ink-light">
+              · {{ t('alsoEarliestAndLatest') }}
+            </span>
+            <span v-else-if="result.shortest === result.average" class="text-ink-light">
+              · {{ t('alsoEarliest') }}
+            </span>
+            <span v-else-if="result.longest === result.average" class="text-ink-light">
+              · {{ t('alsoLatest') }}
+            </span>
           </p>
           <p class="text-[1.15rem] font-bold text-ink leading-snug">
             {{ fmtDate(result.averageDate) }}
@@ -47,7 +56,7 @@ function fmtDate(dateStr) {
           </div>
         </div>
 
-        <!-- Earliest expected (only if different from average) -->
+        <!-- Earliest expected -->
         <div v-if="result.shortest !== result.average" class="bg-teal-pale rounded-[3px] px-6 py-5">
           <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-teal mb-1">
             {{ t('resultEarliest', { days: result.shortest }) }}
@@ -62,7 +71,7 @@ function fmtDate(dateStr) {
           </div>
         </div>
 
-        <!-- Latest expected (only if different from average) -->
+        <!-- Latest expected -->
         <div v-if="result.longest !== result.average" class="bg-purple-pale rounded-[3px] px-6 py-5">
           <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-purple mb-1">
             {{ t('resultLatest', { days: result.longest }) }}
