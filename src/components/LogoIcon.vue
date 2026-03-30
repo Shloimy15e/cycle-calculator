@@ -1,0 +1,18 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" class="inline-block" :width="size" :height="size">
+    <path d="M32 8 A24 24 0 0 1 52.8 20" stroke="#23a8a0" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52.8 20 A24 24 0 0 1 38 55" stroke="#d11c74" stroke-width="5" stroke-linecap="round"/>
+    <path d="M38 55 A24 24 0 0 1 11.2 20" stroke="#463368" stroke-width="5" stroke-linecap="round"/>
+    <path d="M11.2 20 A24 24 0 0 1 32 8" stroke="#23a8a0" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+    <circle cx="32" cy="32" r="3" fill="#23a8a0"/>
+  </svg>
+</template>
+
+<script setup>
+defineProps({
+  size: {
+    type: [Number, String],
+    default: 28
+  }
+})
+</script>
