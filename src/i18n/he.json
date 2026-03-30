@@ -8,6 +8,7 @@
   "reset": "איפוס",
   "resultEarliest": "מוקדם ביותר ({days} ימים)",
   "resultLatest": "מאוחר ביותר ({days} ימים)",
+  "seeMore": "עוד 2 תאריכים",
   "cycleDetail": "מחזור {n}: ‏{days} ימים",
   "cycleDetails": "פירוט מחזורים",
   "errorMinDates": "יש להזין לפחות 2 תאריכים.",

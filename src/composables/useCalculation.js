@@ -95,12 +95,23 @@ export function useCalculation() {
     const longest = Math.max(...cycleLengths)
     const lastDate = sorted[sorted.length - 1]
 
+    const earliestDate = addDaysUTC(lastDate, shortest - 1)
+    const latestDate = addDaysUTC(lastDate, longest - 1)
+
     result.value = {
       shortest,
       longest,
       cycleLengths,
-      earliestDate: addDaysUTC(lastDate, shortest - 1),
-      latestDate: addDaysUTC(lastDate, longest - 1)
+      earliestDate,
+      latestDate,
+      earliestMore: [
+        addDaysUTC(earliestDate, shortest - 1),
+        addDaysUTC(addDaysUTC(earliestDate, shortest - 1), shortest - 1)
+      ],
+      latestMore: [
+        addDaysUTC(latestDate, longest - 1),
+        addDaysUTC(addDaysUTC(latestDate, longest - 1), longest - 1)
+      ]
     }
   }
 

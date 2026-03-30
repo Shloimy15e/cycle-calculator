@@ -8,6 +8,7 @@
   "reset": "Reset",
   "resultEarliest": "Earliest expected ({days} days)",
   "resultLatest": "Latest expected ({days} days)",
+  "seeMore": "See 2 more",
   "cycleDetail": "Cycle {n}: {days} days",
   "cycleDetails": "Individual cycles",
   "errorMinDates": "Please enter at least 2 dates.",
