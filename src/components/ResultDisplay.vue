@@ -15,14 +15,14 @@ const props = defineProps({
   }
 })
 
-const formattedDate = computed(() => {
-  if (!props.result) return ''
-  return new Date(props.result.nextDate).toLocaleDateString(locale.value, {
+function fmtDate(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number)
+  return new Date(y, m - 1, d).toLocaleDateString(locale.value, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
-})
+}
 </script>
 
 <template>
@@ -33,16 +33,28 @@ const formattedDate = computed(() => {
       </p>
 
       <div v-else-if="result" key="result" class="space-y-3">
+        <!-- Earliest expected -->
         <div class="bg-teal-pale rounded-[3px] px-6 py-5">
-          <p class="text-[0.8rem] text-teal font-medium tracking-wide uppercase mb-1">
-            {{ t('resultCycleLength', { days: result.cycleLength }) }}
+          <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-teal mb-1">
+            {{ t('resultEarliest', { days: result.shortest }) }}
           </p>
           <p class="text-[1.15rem] font-bold text-ink leading-snug">
-            {{ t('resultNextDate', { date: formattedDate }) }}
+            {{ fmtDate(result.earliestDate) }}
           </p>
         </div>
 
-        <div v-if="result.cycleLengths && result.cycleLengths.length > 1" class="px-2">
+        <!-- Latest expected (only show if different from earliest) -->
+        <div v-if="result.longest !== result.shortest" class="bg-purple-pale rounded-[3px] px-6 py-5">
+          <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-purple mb-1">
+            {{ t('resultLatest', { days: result.longest }) }}
+          </p>
+          <p class="text-[1.15rem] font-bold text-ink leading-snug">
+            {{ fmtDate(result.latestDate) }}
+          </p>
+        </div>
+
+        <!-- Individual cycles -->
+        <div v-if="result.cycleLengths.length > 1" class="px-2 pt-1">
           <p class="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-ink-light mb-2">
             {{ t('cycleDetails') }}
           </p>

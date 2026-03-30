@@ -1,17 +1,23 @@
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 
-// Parse 'YYYY-MM-DD' to [year, month, day] without timezone issues
+// Parse 'YYYY-MM-DD' without timezone issues
 function parseDate(str) {
   const [y, m, d] = str.split('-').map(Number)
   return new Date(Date.UTC(y, m - 1, d))
 }
 
-// Format UTC date back to 'YYYY-MM-DD'
+// Format UTC date to 'YYYY-MM-DD'
 function formatDate(date) {
   const y = date.getUTCFullYear()
   const m = String(date.getUTCMonth() + 1).padStart(2, '0')
   const d = String(date.getUTCDate()).padStart(2, '0')
   return `${y}-${m}-${d}`
+}
+
+function addDaysUTC(dateStr, days) {
+  const d = parseDate(dateStr)
+  d.setUTCDate(d.getUTCDate() + days)
+  return formatDate(d)
 }
 
 // Days between two date strings (exclusive)
@@ -20,14 +26,7 @@ function daysBetween(a, b) {
 }
 
 export function useCalculation() {
-  const dates = ref(['', ''])
-  const savedMode = localStorage.getItem('period-calc-mode') || 'shortest'
-  const mode = ref(savedMode)
-
-  watch(mode, (val) => {
-    localStorage.setItem('period-calc-mode', val)
-  })
-
+  const dates = ref(['', '', ''])
   const result = ref(null)
   const error = ref(null)
 
@@ -92,29 +91,24 @@ export function useCalculation() {
       cycleLengths.push(daysBetween(sorted[i - 1], sorted[i]) + 1)
     }
 
-    let cycleLength
-    if (mode.value === 'shortest') {
-      cycleLength = Math.min(...cycleLengths)
-    } else {
-      cycleLength = Math.round(cycleLengths.reduce((a, b) => a + b, 0) / cycleLengths.length)
-    }
-
-    const last = parseDate(sorted[sorted.length - 1])
-    last.setUTCDate(last.getUTCDate() + cycleLength - 1)
+    const shortest = Math.min(...cycleLengths)
+    const longest = Math.max(...cycleLengths)
+    const lastDate = sorted[sorted.length - 1]
 
     result.value = {
-      cycleLength,
+      shortest,
+      longest,
       cycleLengths,
-      nextDate: formatDate(last)
+      earliestDate: addDaysUTC(lastDate, shortest - 1),
+      latestDate: addDaysUTC(lastDate, longest - 1)
     }
   }
 
   function reset() {
-    dates.value = ['', '']
-    mode.value = 'shortest'
+    dates.value = ['', '', '']
     result.value = null
     error.value = null
   }
 
-  return { dates, mode, result, error, gaps, addDate, removeDate, calculate, reset }
+  return { dates, result, error, gaps, addDate, removeDate, calculate, reset }
 }

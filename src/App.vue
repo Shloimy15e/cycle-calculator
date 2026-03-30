@@ -3,12 +3,11 @@ import { useI18n } from 'vue-i18n'
 import AppHeader from './components/AppHeader.vue'
 import ExplainerText from './components/ExplainerText.vue'
 import DateEntryForm from './components/DateEntryForm.vue'
-import CalculationToggle from './components/CalculationToggle.vue'
 import ResultDisplay from './components/ResultDisplay.vue'
 import { useCalculation } from './composables/useCalculation.js'
 
 const { t } = useI18n()
-const { dates, mode, result, error, gaps, addDate, removeDate, calculate, reset } = useCalculation()
+const { dates, result, error, gaps, addDate, removeDate, calculate, reset } = useCalculation()
 </script>
 
 <template>
@@ -26,11 +25,7 @@ const { dates, mode, result, error, gaps, addDate, removeDate, calculate, reset 
           @remove="removeDate"
         />
 
-        <div class="h-px bg-border-light my-8"></div>
-
-        <CalculationToggle v-model="mode" />
-
-        <div class="flex gap-3 mt-9">
+        <div class="flex gap-3 mt-8">
           <button
             class="flex-1 py-3 text-[0.9rem] font-semibold tracking-wide rounded-[3px] bg-pink text-white hover:bg-pink-hover active:scale-[0.97] transition-all duration-200 cursor-pointer border-none shadow-[0_2px_10px_rgba(209,28,116,0.2)] hover:shadow-[0_4px_16px_rgba(209,28,116,0.3)]"
             @click="calculate(t)"
